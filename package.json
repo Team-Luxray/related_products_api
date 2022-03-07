@@ -1,0 +1,17 @@
+{
+  "name": "sdc",
+  "version": "1.0.0",
+  "description": "Hack Reactor SDC Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/index.js"
+  },
+  "author": "Daniel Kim",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "nodemon": "^2.0.15",
+    "pg": "^8.7.3"
+  }
+}
