@@ -1,21 +1,29 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
+import { sleep, check } from 'k6';
+import { Counter } from 'k6/metrics';
+
+export const requests = new Counter('http_reqs');
+
+
 export const options = {
-  vus: 10,
-  duration: '30s',
+  stages: [{duration: '5s', target: 100}, {duration: '10s', target: 500}, {duration: '5s', target: 100}]
 };
 
 export default function () {
-  // http.get('http://localhost:3000/products');
-  // sleep(1);
 
-  // for (let id = 1; id <= 100; id++) {
-  //   http.get(`http://localhost:3000/products/${id}`);
-  // }
+  let id = Math.floor(Math.random() * 1000000);
+  // http://localhost:3000/products
+  // http://localhost:3000/products/${id}
+  // http://localhost:3000/products/${id}/styles
 
-  for (let id = 1; id <= 100; id++) {
-  http.get(`http://localhost:3000/products/${id}/styles`);
-  }
-  sleep(1)
+  const res = http.get(`http://localhost:3000/products`);
+  sleep(1);
+  check(res, {
+    'is status 200': r => r.status === 200,
+    'transaction time < 200ms': r => r.timings.duration < 200,
+    'transaction time < 500ms': r => r.timings.duration < 500,
+    'transaction time < 1000s': r => r.timings.duration < 1000,
+    'transaction time < 2000ms': r => r.timings.duration < 2000,
+  })
 }
 
