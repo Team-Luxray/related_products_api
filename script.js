@@ -6,7 +6,16 @@ export const options = {
 };
 
 export default function () {
-  http.get('http://localhost:3000/products');
-  sleep(0.1);
+  // http.get('http://localhost:3000/products');
+  // sleep(1);
+
+  // for (let id = 1; id <= 100; id++) {
+  //   http.get(`http://localhost:3000/products/${id}`);
+  // }
+
+  for (let id = 1; id <= 100; id++) {
+  http.get(`http://localhost:3000/products/${id}/styles`);
+  }
+  sleep(1)
 }
 

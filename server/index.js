@@ -38,11 +38,24 @@ app.get('/products/:id', (req, res) => {
   .catch(e => console.log(e))
 })
 
+// `SELECT id AS style_id, name, original_price, sale_price, default_style AS "default?",
+//   (SELECT json_agg(json_build_object('thumbnail_url', thumbnail_url, 'url', url)) AS photos FROM photos WHERE styleId = ${id}),
+//   (SELECT json_object_agg(id, json_build_object('quantity', quantity, 'size', size)) AS skus FROM skus WHERE styleId=${id})
+//   FROM styles WHERE productId=${id}`;
+
+  // `SELECT json_agg(json_build_object('style_id', id, 'name', name, 'original_price', original_price, 'sale_price', sale_price, 'default?', default_style) AS results FROM styles)`
+
+  // ` SELECT json_agg(json_build_object('style_id', id, 'name', name, 'original_price', original_price, 'sale_price', sale_price, 'default?', default_style,
+  //  'photos', (SELECT json_agg(json_build_object('thumbnail_url', thumbnail_url, 'url', url)) AS photos FROM photos WHERE styleId = id),
+  // (SELECT json_object_agg(id, json_build_object('quantity', quantity, 'size', size)) AS skus FROM skus WHERE styleId=${id})
+  // )) AS results FROM styles WHERE productId=${id}`;
+
 app.get('/products/:id/styles', (req, res) => {
   var {id} = req.params;
-  var queryStr = `SELECT productId, name, original_price, sale_price, default_style AS "default?",
-  (SELECT json_object_agg(id, json_build_object('quantity', quantity, 'size', size)) AS skus FROM skus WHERE styleId=${id})
-  FROM styles WHERE productId=${id} LIMIT 1`;
+  var queryStr = `SELECT id AS style_id, name, original_price, sale_price, default_style AS "default?",
+  (SELECT json_agg(json_build_object('thumbnail_url', thumbnail_url, 'url', url)) AS photos FROM photos WHERE styleId = styles.id),
+  (SELECT json_object_agg(id, json_build_object('quantity', quantity, 'size', size)) AS skus FROM skus WHERE styleId=styles.id)
+  FROM styles WHERE productId=${id}`;
   db.query(queryStr)
   .then(response => {
     res.send(response.rows);
