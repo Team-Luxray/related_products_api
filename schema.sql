@@ -44,7 +44,7 @@ create table skus (
 
 /* Load */
 COPY product from '/Users/danielkim520/Desktop/SDC/csvData/product.csv' DELIMITERS ',' CSV HEADER;
-COPY features() from '/Users/danielkim520/Desktop/SDC/csvData/features.csv' DELIMITERS ',' CSV HEADER;
+COPY features from '/Users/danielkim520/Desktop/SDC/csvData/features.csv' DELIMITERS ',' CSV HEADER;
 COPY styles from '/Users/danielkim520/Desktop/SDC/csvData/styles.csv' DELIMITERS ',' CSV HEADER;
 COPY photos from '/Users/danielkim520/Desktop/SDC/csvData/photos.csv' DELIMITERS ',' CSV HEADER;
 COPY skus from '/Users/danielkim520/Desktop/SDC/csvData/skus.csv' DELIMITERS ',' CSV HEADER;

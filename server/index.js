@@ -66,6 +66,9 @@ app.get('/products/:id/styles', (req, res) => {
   .catch(e => console.log(e))
 })
 
+app.get('/loaderio-dbfe4d36b1f2cd0cc140e26bc862d9d1.txt', (req, res) => {
+  res.status(200).send('loaderio-dbfe4d36b1f2cd0cc140e26bc862d9d1');
+})
 
 // Serve
 app.listen(port, () => {
