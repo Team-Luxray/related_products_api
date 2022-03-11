@@ -66,8 +66,8 @@ app.get('/products/:id/styles', (req, res) => {
   .catch(e => console.log(e))
 })
 
-app.get('/loaderio-dbfe4d36b1f2cd0cc140e26bc862d9d1.txt', (req, res) => {
-  res.status(200).send('loaderio-dbfe4d36b1f2cd0cc140e26bc862d9d1');
+app.get('/loaderio-7bd7b6e48a0f6393a8276ede6f10150c.txt', (req, res) => {
+  res.status(200).send('loaderio-7bd7b6e48a0f6393a8276ede6f10150c');
 })
 
 // Serve
