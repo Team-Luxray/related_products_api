@@ -1,0 +1,66 @@
+Other SDC Notes:
+run ip tables if change security group or reboot instance
+add .env and github token 
+when git clone, use github token as pw
+
+COPY features from ‘/Users/danielkim520/Desktop/SDC/features.csv’ DELIMITERS ‘,’ CSV HEADER;
+COPY features from ‘/Users/danielkim520/Desktop/SDC/features.csv’ DELIMITERS ‘,’ CSV HEADER;
+COPY features from ‘/Users/danielkim520/Desktop/SDC/features.csv’ DELIMITERS ‘,’ CSV HEADER;
+COPY features from ‘/Users/danielkim520/Desktop/SDC/features.csv’ DELIMITERS ‘,’ CSV HEADER;
+\i /Users/danielkim520/Desktop/SDC/schema.sql
+CREATE INDEX on foreign keys for O(long)
+
+testing in development: K6
+Testing in prod: loader.io
+Latency: how fast does your API respond? Goal: < 2000 ms under load
+Throughput: how many requests per second can you handle. Goal: 100 RPS on EC2
+Error rate: how often does a response generate an error? Goal: <1% under load
+brew services list
+Brew services start/stop mysql/postgresql
+
+
+Configuring EC2:
+chmod 400 name.pem
+ssh -i name.pem ubuntu@123.456.78
+sudo apt-get update && sudo apt-get upgrade -y
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install git
+(this will allow you to clone project into the EC2 instance)
+sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+(reroutes all traffic received at :80 (the default for HTTP traffic) to :3000 instead. Match the port in your security config and app) 
+
+
+Postgres on EC2:
+Follow https://docs.google.com/document/d/18F6bFQR-ZwVQIC--Gh_P8jTrHvH7ISpMsXg5zDrce3U/edit
+scp -i sdc.pem -r ./csvData ubuntu@ec2-54-209-56-104.compute-1.amazonaws.com:/home/ubuntu
+(transferring csv files to ec2 instance. Use ubuntu@IPv4 DNS)
+sudo systemctl start postgresql.service
+sudo -i -u postgres psql
+
+
+Nginx Load Balancer:
+https://www.nginx.com/blog/setting-up-nginx/ (do everything until installing nginx plus)
+
+Put below in /etc/nginx/nginx.conf :
+
+http {
+   upstream backend {
+      server 10.1.0.101; 
+      server 10.1.0.102;
+      server 10.1.0.103;
+   }
+
+   # This server accepts all traffic to port 80 and passes it to the upstream. 
+   # Notice that the upstream name and the proxy_pass need to match.
+
+   server {
+      listen 80; 
+
+      location / {
+          proxy_pass http://backend;
+      }
+   }
+}
+
+sudo systemctl restart nginx.service every time I change above file!

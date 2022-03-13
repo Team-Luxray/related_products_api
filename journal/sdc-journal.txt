@@ -1,0 +1,15 @@
+Day 1: Learned about postgresql, started schema design for relational db and mongoDB.
+
+Day 2: Load data into db. Build out server and routes.
+
+Day 3: Successfully used aggregate functions json_agg and json_build_object.
+
+Day 4: Added index to foreign keys which made lookups much faster.
+
+Day 5: Rewrote k6 tests to target up to 500 rps. Latter two get requests average under 50ms but first get request was ~400ms. Rewrote query to use params ($1, $2) instead of making javascript calculation directly in the query. That cut down request speed to half ~170ms. Speed issue might be due to javascript calculation, but also my local machine (2016 mac).  
+
+Day 6: Deployed server and db on AWS EC2
+
+Day 7: Run and record test results on Loader.io. Initially had issue verifying loader.io because my server port was only open to my IP. 
+
+Day 8: Used nginx load balancer to scale up to three servers. Added caching as well. Was able to hit up to 2500 rps without errors. However, beyond that I got network errors of 10%+ which I suspect could be because of aggregate functions that put load on the single db. Instead, I could've tried simple queries that put less load on the db, and js functions that put the load on servers, because I have three servers. 
